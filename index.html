@@ -9,16 +9,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #fff0f3;
+      background: linear-gradient(-45deg, #fff0f3, #ffccd5, #fff5f7, #ffb3c1);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
       font-family: 'Inter', sans-serif;
       overflow: hidden;
     }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .font-signature { font-family: 'Dancing Script', cursive; }
     
     .main-box {
-      background: rgba(255, 255, 255, 0.9);
-      border: 2px solid #ffccd5;
-      box-shadow: 0 20px 40px rgba(255, 77, 109, 0.15);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.25);
     }
 
     #no-btn {
@@ -50,14 +60,27 @@
       0%, 100% { transform: translateY(0px) rotate(0deg); }
       50% { transform: translateY(-15px) rotate(2deg); }
     }
+
+    /* Status text styling */
+    .status-badge {
+      background: rgba(255, 255, 255, 0.6);
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ff4d6d;
+      border: 1px solid #ffccd5;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
   <div id="container" class="main-box max-w-md w-full rounded-[2.5rem] p-10 text-center relative overflow-visible">
     
-    <div class="mb-2 text-pink-400 font-bold tracking-widest text-xs uppercase">
-      Emotional state of saksham = <span id="emotional-state">neutral</span>
+    <div class="status-badge">
+      Saksham's Emotional State: <span id="status-text" class="uppercase">neutral</span>
     </div>
 
     <div class="floating mb-6">
@@ -93,25 +116,26 @@
     const noBtn = document.getElementById('no-btn');
     const headline = document.getElementById('headline');
     const mainGif = document.getElementById('main-gif');
-    const emotionalState = document.getElementById('emotional-state');
     const controls = document.getElementById('controls');
     const successMsg = document.getElementById('success-msg');
+    const statusText = document.getElementById('status-text');
 
     let noCount = 0;
     const phrases = [
-      "nuh uh", "saachi mein no?", "itna ganda lagta hu apko?", "shru please!!!!!",
-      "maan jao naa", "bebuuuuuuuuuuuuuu 🥺", "my nibble nose!",
-      "maan jao my aphrodite!", "my big butt princess", "duckling stoppp!!!",
-      "cutie kandari!!!", "no more now!"
+      "nuh uh", "saachi mein no?", "itna ganda lagta hu apko?", 
+      "shru please!!!!!", "maan jao naa", "bebuuuuuuuuuuuuuu 🥺", 
+      "my nibble nose!", "maan jao my aphrodite!", "my big butt princess", 
+      "duckling stoppp!!!", "cutie kandari!!!", "no more now!"
     ];
 
     noBtn.addEventListener('click', () => {
       noCount++;
       
-      // Update Image and State text
+      // Update Saksham's State
+      statusText.innerText = "sad 😢";
+      statusText.style.color = "#4a5568"; // Greyer tone for sadness
+      
       mainGif.src = "sad.jpg";
-      emotionalState.innerText = "sad";
-      emotionalState.style.color = "#ff4d6d";
       
       const scale = 1 + (noCount * 0.5);
       yesBtn.style.transform = `scale(${scale})`;
@@ -123,6 +147,7 @@
       if (noCount >= 2) {
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+        
         noBtn.style.position = 'fixed';
         noBtn.style.left = `${Math.max(20, Math.min(x, window.innerWidth - 150))}px`;
         noBtn.style.top = `${Math.max(20, Math.min(y, window.innerHeight - 80))}px`;
@@ -130,6 +155,10 @@
     });
 
     yesBtn.addEventListener('click', () => {
+      // Update Saksham's State
+      statusText.innerText = "HEAVENLY HAPPY! 😍";
+      statusText.style.color = "#ff4d6d";
+
       const count = 200;
       const defaults = { origin: { y: 0.7 }, colors: ['#ff4d6d', '#ff85a1', '#ffffff'] };
 
@@ -144,11 +173,7 @@
       fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
       fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
 
-      // Update Image and State text
       mainGif.src = "happy.jpg";
-      emotionalState.innerText = "happy";
-      emotionalState.style.color = "#4ade80"; // Green color for happy
-      
       headline.innerHTML = "I KNEW IT! ❤️";
       controls.classList.add('hidden');
       successMsg.classList.remove('hidden');
