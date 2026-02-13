@@ -58,8 +58,8 @@
   <div id="container" class="main-box max-w-md w-full rounded-[2.5rem] p-10 text-center relative overflow-visible">
     
     <div class="floating mb-6">
-      <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh6ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kaq6Ggm5hkz3gsBAkd/giphy.gif" 
-           alt="Cute Cat" class="w-44 h-44 mx-auto rounded-full border-4 border-pink-200 object-cover shadow-inner">
+      <img id="main-gif" src="neutral.jpg" 
+           alt="Valentine Image" class="w-44 h-44 mx-auto rounded-full border-4 border-pink-200 object-cover shadow-inner">
     </div>
 
     <h1 id="headline" class="text-4xl font-black text-gray-900 mb-8 leading-tight">
@@ -107,13 +107,13 @@
       "duckling stoppp!!!",
       "cutie kandari!!!",
       "no more now!"
-      
-      
-      
     ];
 
     noBtn.addEventListener('click', () => {
       noCount++;
+      
+      // Change to sad image when clicking no
+      mainGif.src = "sad.jpg";
       
       // 1. Grow the YES button faster
       const scale = 1 + (noCount * 0.5);
@@ -152,8 +152,8 @@
       fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
       fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
 
-      // Change Content
-      mainGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh6ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LYU79Yt2Y6E6Jg9bUj/giphy.gif";
+      // Change Content to happy.jpg
+      mainGif.src = "happy.jpg";
       headline.innerHTML = "I KNEW IT! ❤️";
       controls.classList.add('hidden');
       successMsg.classList.remove('hidden');
