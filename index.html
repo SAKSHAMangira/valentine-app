@@ -3,225 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>For My Precious Shru&lt;3 🌹</title>
+  <title>For Shru<3</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Charmonman:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #ff4d6d;
+      --secondary: #ff85a1;
+    }
     body {
-      background: radial-gradient(circle at top left, #ffe4e6 0%, #ffc0cb 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: #fff5f7;
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
-      font-family: 'Dancing Script', cursive;
-      color: #333;
+    }
+    .font-signature { font-family: 'Dancing Script', cursive; }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.2);
     }
 
-    .card-container {
-      perspective: 1000px;
-      position: relative;
-      z-index: 10;
+    .floating {
+      animation: floating 3s ease-in-out infinite;
     }
 
-    .main-card {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(15px);
-      border-radius: 30px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.6);
-      padding: 2.5rem;
-      max-width: 480px;
-      width: 90vw;
-      text-align: center;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    @keyframes floating {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
     }
 
-    .main-card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      backface-visibility: hidden;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 2.5rem; /* Ensure consistent padding */
-    }
-
-    .card-back {
-      transform: rotateY(180deg);
-      background: rgba(255, 255, 255, 0.9); /* Match front background */
-      border-radius: 30px; /* Match front border-radius */
-    }
-
-    .heart-bg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .floating-element {
-      position: absolute;
-      animation: float 10s infinite ease-in-out;
-      opacity: 0.6;
-      font-size: 2em;
-      color: #ffb6c1;
-    }
-
-    @keyframes float {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(20px, 30px) rotate(10deg); }
-      50% { transform: translate(0, 60px) rotate(0deg); }
-      75% { transform: translate(-20px, 30px) rotate(-10deg); }
-      100% { transform: translate(0, 0) rotate(0deg); }
-    }
-
-    .title-font { font-family: 'Charmonman', cursive; }
-
-    #typed-message {
-      white-space: pre-wrap;
-      text-align: center;
-      font-size: 1.6rem;
-      line-height: 1.5;
-      color: #555;
-    }
+    #no-btn { transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    #yes-btn { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   </style>
 </head>
-<body>
-  <div class="heart-bg" id="heart-bg"></div>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-  <div class="card-container">
-    <div id="main-card" class="main-card">
-      <div class="card-front">
-        <img id="display-image" src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh6ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kaq6Ggm5hkz3gsBAkd/giphy.gif" 
-             alt="Romantic Couple" class="h-48 rounded-lg shadow-md mb-6 transition-all duration-500">
-        
-        <h1 class="text-5xl title-font text-red-500 mb-6 leading-tight">
-          My Precious Shru&lt;3,
-        </h1>
-        <h2 id="question" class="text-3xl font-bold text-pink-700 mb-8">
-          Will you be my Valentine? 🌹
-        </h2>
-
-        <div id="button-group" class="flex flex-col items-center gap-5">
-          <button id="yes-btn" 
-                  class="bg-gradient-to-r from-red-400 to-pink-500 hover:from-red-500 hover:to-pink-600 text-white text-3xl px-12 py-4 rounded-full shadow-xl transform transition-all active:scale-95 duration-300 z-50">
-            HELL YEAHHH! 💖
-          </button>
-          
-          <button id="no-btn" 
-                  class="bg-white text-gray-700 border-2 border-pink-200 text-xl px-8 py-2 rounded-full shadow-md transition-all duration-300">
-            nuh uh
-          </button>
-        </div>
+  <div id="container" class="glass-card max-w-md w-full rounded-[2rem] p-8 text-center relative z-10">
+    <div class="relative mb-6">
+      <div class="floating">
+        <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh6ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" 
+             alt="Cute Cat" class="w-48 h-48 mx-auto rounded-2xl object-cover shadow-lg">
       </div>
-
-      <div class="card-back hidden">
-        <h3 class="text-4xl title-font text-pink-700 mb-6">You're My Home, My Bliss, My Love.</h3>
-        <p id="typed-message"></p>
-        <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh6ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LYU79Yt2Y6E6Jg9bUj/giphy.gif" 
-             alt="Happy dancing couple" class="h-40 rounded-lg shadow-md mt-8">
-      </div>
+      <div class="absolute -top-4 -right-4 bg-white p-2 rounded-full shadow-md rotate-12">❤️</div>
     </div>
+
+    <h2 class="text-sm font-bold tracking-[0.2em] text-pink-400 uppercase mb-2">Private Invitation</h2>
+    <h1 id="headline" class="text-4xl font-extrabold text-gray-800 mb-6 leading-tight">
+      Will you be my Valentine, <span class="text-pink-500 font-signature text-5xl">Shru&lt;3</span>?
+    </h1>
+
+    <div id="controls" class="flex flex-col gap-4 items-center justify-center relative min-h-[150px]">
+      <button id="yes-btn" class="bg-pink-500 hover:bg-pink-600 text-white font-black py-4 px-12 rounded-2xl shadow-[0_10px_0_#c9184a] active:shadow-none active:translate-y-[10px] z-50 text-xl uppercase tracking-wider">
+        HELL YEAHHH!
+      </button>
+      
+      <button id="no-btn" class="text-gray-400 font-semibold hover:text-gray-600 px-6 py-2 rounded-xl text-lg">
+        nuh uh
+      </button>
+    </div>
+
+    <div id="success-msg" class="hidden">
+      <p class="text-gray-700 text-xl leading-relaxed italic">
+        "I’ve found my <span class="text-pink-500 font-bold">eternal belonging</span> in you. <br>
+        The world stops when you rest your head on my chest."
+      </p>
+      <p class="mt-6 font-signature text-3xl text-pink-500">I'll choose you every time.</p>
+    </div>
+  </div>
+
+  <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+    <div class="absolute top-10 left-10 text-4xl animate-pulse">✨</div>
+    <div class="absolute bottom-20 right-10 text-4xl animate-bounce">💖</div>
+    <div class="absolute top-1/2 left-20 text-2xl animate-pulse">🌸</div>
   </div>
 
   <script>
     const yesBtn = document.getElementById('yes-btn');
     const noBtn = document.getElementById('no-btn');
-    const question = document.getElementById('question');
-    const displayImage = document.getElementById('display-image');
-    const buttonGroup = document.getElementById('button-group');
-    const mainCard = document.getElementById('main-card');
-    const cardFront = document.querySelector('.card-front');
-    const cardBack = document.querySelector('.card-back');
-    const typedMessageElement = document.getElementById('typed-message');
+    const headline = document.getElementById('headline');
+    const mainGif = document.getElementById('main-gif');
+    const controls = document.getElementById('controls');
+    const successMsg = document.getElementById('success-msg');
 
     let noCount = 0;
-    const phrases = ["nuh uh", "saachi mein no?", "itna ganda lagta hu apko?", "shru please!!!!!", "maan jao naa", "Puh-please? 🥺", "I'll do anything for you!", "Don't do this to me, Shru..."];
-    
-    const finalYesMessages = [
-      "My love for you only grows as each day passes. You bring out the best in me.",
-      "I've found my eternal belonging in you, Shru. We're in this together.",
-      "Every moment with you flies, yet everything stays with me. You're my home, my bliss, my love.",
-      "I'll choose you each time, in every life, to do this all over again and again."
+    const phrases = [
+      "nuh uh",
+      "saachi mein no?",
+      "itna ganda lagta hu apko?",
+      "shru please!!!!!",
+      "maan jao naa",
+      "Don't do this, Shru 🥺",
+      "I'm gonna cry...",
+      "Just click the big button!"
     ];
-
-    // Floating background elements
-    const createFloatingElement = (content, size, delay) => {
-      const element = document.createElement('div');
-      element.classList.add('floating-element');
-      element.innerHTML = content;
-      element.style.fontSize = size + 'em';
-      element.style.left = Math.random() * 90 + 'vw';
-      element.style.top = Math.random() * 90 + 'vh';
-      element.style.animationDelay = delay + 's';
-      document.getElementById('heart-bg').appendChild(element);
-      setTimeout(() => element.remove(), 10000 + delay * 1000); // Remove after animation
-    };
-
-    setInterval(() => {
-      createFloatingElement('❤️', Math.random() * 1.5 + 0.8, Math.random() * 2);
-      createFloatingElement('🌹', Math.random() * 1.2 + 0.6, Math.random() * 2);
-    }, 500);
 
     noBtn.addEventListener('click', () => {
       noCount++;
       
-      const scale = 1 + (noCount * 0.4); 
+      // Grow the YES button
+      const scale = 1 + (noCount * 0.4);
       yesBtn.style.transform = `scale(${scale})`;
-      yesBtn.style.padding = `${1.5 + noCount * 0.3}rem ${3 + noCount * 0.6}rem`;
-      yesBtn.style.fontSize = `${2.5 + noCount * 0.2}rem`;
+      
+      // Move the buttons up as it grows
+      controls.style.marginTop = `${noCount * 10}px`;
 
-      if (noCount < phrases.length) {
-        noBtn.innerText = phrases[noCount];
-      } else {
-        noBtn.innerText = "Okay, now you're just being silly! 😂";
-      }
+      // Change text
+      noBtn.innerText = phrases[Math.min(noCount, phrases.length - 1)];
 
+      // Make it run away after 3 clicks
       if (noCount >= 3) {
+        const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+        const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
         noBtn.style.position = 'fixed';
-        noBtn.style.left = Math.random() * (window.innerWidth - noBtn.offsetWidth) + 'px';
-        noBtn.style.top = Math.random() * (window.innerHeight - noBtn.offsetHeight) + 'px';
-        noBtn.style.zIndex = '100'; // Bring to front
+        noBtn.style.left = x + 'px';
+        noBtn.style.top = y + 'px';
       }
     });
 
     yesBtn.addEventListener('click', () => {
-      // Confetti burst
+      // Confetti
       confetti({
         particleCount: 150,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#ff0000', '#ff69b4', '#ffffff']
+        colors: ['#ff4d6d', '#ff85a1', '#ffffff']
       });
 
-      // Hide front content and show back
-      cardFront.classList.add('hidden');
-      cardBack.classList.remove('hidden');
-      mainCard.classList.add('flipped');
-
-      const selectedMessage = finalYesMessages[Math.floor(Math.random() * finalYesMessages.length)];
-      let i = 0;
-      function typeWriter() {
-        if (i < selectedMessage.length) {
-          typedMessageElement.innerHTML += selectedMessage.charAt(i);
-          i++;
-          setTimeout(typeWriter, 40); // Typing speed
-        }
-      }
-      setTimeout(typeWriter, 800); // Delay before typing starts
+      // Change Content
+      mainGif.src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXh6ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZzR4bm96ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v8Y8X4E2H3gM6OJKN1/giphy.gif";
+      headline.innerHTML = "I KNEW IT! ❤️";
+      controls.classList.add('hidden');
+      successMsg.classList.remove('hidden');
+      
+      // Final explosion after 1 second
+      setTimeout(() => {
+        confetti({
+          particleCount: 100,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 100,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+      }, 500);
     });
   </script>
 </body>
