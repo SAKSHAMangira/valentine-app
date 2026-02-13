@@ -14,6 +14,7 @@
       animation: gradient 15s ease infinite;
       font-family: 'Inter', sans-serif;
       overflow: hidden;
+      margin: 0;
     }
 
     @keyframes gradient {
@@ -26,9 +27,10 @@
     
     .main-box {
       background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       border: 2px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.25);
+      box-shadow: 0 25px 50px -12px rgba(255, 77, 109, 0.35);
+      z-index: 10;
     }
 
     #no-btn {
@@ -40,19 +42,13 @@
       z-index: 100;
     }
 
-    #no-btn:hover {
-      background-color: #ffb3c1;
-      transform: scale(1.05);
-    }
-
     #yes-btn {
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 50;
       text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
-    .floating {
+    .floating-img {
       animation: floating 3s ease-in-out infinite;
     }
 
@@ -61,31 +57,49 @@
       50% { transform: translateY(-15px) rotate(2deg); }
     }
 
-    /* Status text styling */
     .status-badge {
-      background: rgba(255, 255, 255, 0.6);
-      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px 15px;
       border-radius: 99px;
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.85rem;
+      font-weight: 800;
       color: #ff4d6d;
       border: 1px solid #ffccd5;
       display: inline-block;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Floating Emoji Styles */
+    .particle {
+      position: absolute;
+      bottom: -10%;
+      pointer-events: none;
+      animation: floatUp linear infinite;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-  <div id="container" class="main-box max-w-md w-full rounded-[2.5rem] p-10 text-center relative overflow-visible">
+  <div id="particles-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+  <div id="container" class="main-box max-w-md w-full rounded-[3rem] p-10 text-center relative">
     
     <div class="status-badge">
       Saksham's Emotional State: <span id="status-text" class="uppercase">neutral</span>
     </div>
 
-    <div class="floating mb-6">
+    <div class="floating-img mb-6">
       <img id="main-gif" src="neutral.jpg" 
-           alt="Valentine Image" class="w-44 h-44 mx-auto rounded-full border-4 border-pink-200 object-cover shadow-inner">
+           alt="Valentine Image" class="w-48 h-48 mx-auto rounded-full border-4 border-white object-cover shadow-xl">
     </div>
 
     <h1 id="headline" class="text-4xl font-black text-gray-900 mb-8 leading-tight">
@@ -97,12 +111,12 @@
         HELL YEAHHH!
       </button>
       
-      <button id="no-btn" class="px-10 py-3 rounded-2xl text-xl shadow-sm">
+      <button id="no-btn" class="px-10 py-3 rounded-2xl text-xl shadow-md">
         nuh uh
       </button>
     </div>
 
-    <div id="success-msg" class="hidden animate-in fade-in zoom-in duration-500">
+    <div id="success-msg" class="hidden animate-in fade-in zoom-in duration-700">
       <p class="text-gray-700 text-2xl leading-relaxed font-medium">
         "I've found my <span class="text-pink-500 font-bold">eternal belonging</span> in you."
       </p>
@@ -119,6 +133,22 @@
     const controls = document.getElementById('controls');
     const successMsg = document.getElementById('success-msg');
     const statusText = document.getElementById('status-text');
+    const particlesContainer = document.getElementById('particles-container');
+
+    // Create Floating Hearts and Roses
+    const emojis = ['❤️', '🌹', '💖', '✨', '🌷'];
+    function createParticle() {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.fontSize = (Math.random() * 20 + 20) + 'px';
+      particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      particlesContainer.appendChild(particle);
+      
+      setTimeout(() => { particle.remove(); }, 10000);
+    }
+    setInterval(createParticle, 300);
 
     let noCount = 0;
     const phrases = [
@@ -130,11 +160,8 @@
 
     noBtn.addEventListener('click', () => {
       noCount++;
-      
-      // Update Saksham's State
       statusText.innerText = "sad 😢";
-      statusText.style.color = "#4a5568"; // Greyer tone for sadness
-      
+      statusText.style.color = "#4a5568";
       mainGif.src = "sad.jpg";
       
       const scale = 1 + (noCount * 0.5);
@@ -147,7 +174,6 @@
       if (noCount >= 2) {
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        
         noBtn.style.position = 'fixed';
         noBtn.style.left = `${Math.max(20, Math.min(x, window.innerWidth - 150))}px`;
         noBtn.style.top = `${Math.max(20, Math.min(y, window.innerHeight - 80))}px`;
@@ -155,23 +181,15 @@
     });
 
     yesBtn.addEventListener('click', () => {
-      // Update Saksham's State
       statusText.innerText = "HEAVENLY HAPPY! 😍";
       statusText.style.color = "#ff4d6d";
 
-      const count = 200;
-      const defaults = { origin: { y: 0.7 }, colors: ['#ff4d6d', '#ff85a1', '#ffffff'] };
-
-      function fire(particleRatio, opts) {
-        confetti(Object.assign({}, defaults, opts, {
-          particleCount: Math.floor(count * particleRatio)
-        }));
-      }
-
-      fire(0.25, { spread: 26, startVelocity: 55 });
-      fire(0.2, { spread: 60 });
-      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      confetti({
+        particleCount: 200,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ['#ff4d6d', '#ff85a1', '#ffffff']
+      });
 
       mainGif.src = "happy.jpg";
       headline.innerHTML = "I KNEW IT! ❤️";
