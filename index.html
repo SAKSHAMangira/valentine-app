@@ -21,14 +21,13 @@
       box-shadow: 0 20px 40px rgba(255, 77, 109, 0.15);
     }
 
-    /* The "No" button needs to be bold and visible */
     #no-btn {
       transition: all 0.2s ease;
       background-color: #ffe5ec;
       border: 2px solid #ff85a1;
       color: #ff4d6d;
       font-weight: 800;
-      z-index: 100; /* Always stay above the growing Yes button */
+      z-index: 100;
     }
 
     #no-btn:hover {
@@ -57,6 +56,10 @@
 
   <div id="container" class="main-box max-w-md w-full rounded-[2.5rem] p-10 text-center relative overflow-visible">
     
+    <div class="mb-2 text-pink-400 font-bold tracking-widest text-xs uppercase">
+      Emotional state of saksham = <span id="emotional-state">neutral</span>
+    </div>
+
     <div class="floating mb-6">
       <img id="main-gif" src="neutral.jpg" 
            alt="Valentine Image" class="w-44 h-44 mx-auto rounded-full border-4 border-pink-200 object-cover shadow-inner">
@@ -90,46 +93,36 @@
     const noBtn = document.getElementById('no-btn');
     const headline = document.getElementById('headline');
     const mainGif = document.getElementById('main-gif');
+    const emotionalState = document.getElementById('emotional-state');
     const controls = document.getElementById('controls');
     const successMsg = document.getElementById('success-msg');
 
     let noCount = 0;
     const phrases = [
-      "nuh uh",
-      "saachi mein no?",
-      "itna ganda lagta hu apko?",
-      "shru please!!!!!",
-      "maan jao naa",
-      "bebuuuuuuuuuuuuuu 🥺",
-      "my nibble nose!",
-      "maan jao my aphrodite!",
-      "my big butt princess",
-      "duckling stoppp!!!",
-      "cutie kandari!!!",
-      "no more now!"
+      "nuh uh", "saachi mein no?", "itna ganda lagta hu apko?", "shru please!!!!!",
+      "maan jao naa", "bebuuuuuuuuuuuuuu 🥺", "my nibble nose!",
+      "maan jao my aphrodite!", "my big butt princess", "duckling stoppp!!!",
+      "cutie kandari!!!", "no more now!"
     ];
 
     noBtn.addEventListener('click', () => {
       noCount++;
       
-      // Change to sad image when clicking no
+      // Update Image and State text
       mainGif.src = "sad.jpg";
+      emotionalState.innerText = "sad";
+      emotionalState.style.color = "#ff4d6d";
       
-      // 1. Grow the YES button faster
       const scale = 1 + (noCount * 0.5);
       yesBtn.style.transform = `scale(${scale})`;
       
-      // 2. Change text based on your lingo
       if (noCount < phrases.length) {
         noBtn.innerText = phrases[noCount];
       }
 
-      // 3. Move the "No" button randomly after a few attempts
       if (noCount >= 2) {
         const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
         const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-        
-        // Ensure it doesn't just disappear behind the box
         noBtn.style.position = 'fixed';
         noBtn.style.left = `${Math.max(20, Math.min(x, window.innerWidth - 150))}px`;
         noBtn.style.top = `${Math.max(20, Math.min(y, window.innerHeight - 80))}px`;
@@ -137,7 +130,6 @@
     });
 
     yesBtn.addEventListener('click', () => {
-      // Confetti burst
       const count = 200;
       const defaults = { origin: { y: 0.7 }, colors: ['#ff4d6d', '#ff85a1', '#ffffff'] };
 
@@ -152,8 +144,11 @@
       fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
       fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
 
-      // Change Content to happy.jpg
+      // Update Image and State text
       mainGif.src = "happy.jpg";
+      emotionalState.innerText = "happy";
+      emotionalState.style.color = "#4ade80"; // Green color for happy
+      
       headline.innerHTML = "I KNEW IT! ❤️";
       controls.classList.add('hidden');
       successMsg.classList.remove('hidden');
